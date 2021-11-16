@@ -1,25 +1,35 @@
-EXE	= mclife
-OBJS	= doCol.o
+EXE = mclife
+all: $(EXE)
 
-LIBS	= -lcse30life
+SRC   = doCol.S
+OBJ  = doCol.o
 
-CC	= gcc
+# special libraries
+# LIBDIR  = -L.
+LIBDIR  = -L/home/linux/ieng6/cs30fa21c/public/local/arm/lib
+LIB   = $(LIBDIR) -lcse30life -lcse30liferv
 
-DEBUG	= -g
-WARN	= -Wall -Wextra
-CSTD	= -std=c11
-CFLAGS	:= -I. -D_POSIX_C_SOURCE $(DEBUG) $(WARN) $(CSTD) -L/home/linux/ieng6/cs30fa21c/public/local/arm/lib
+
+# select the compiler and flags you can override on the command line
+CC    = gcc 
+DEBUG = -g -gstabs+
+CSTD  = -std=c11
+WARN  = -Wall -Wextra
+CFLAGS = -I. -D_POSIX_C_SOURCE $(DEBUG) $(WARN) $(CTDO)
+
+
+# select the assembler
+AS      = gcc
+ASLIST  = -Wa,-adhln
+ASFLAGS = -I.
+
+%.o : %.s
+	$(AS) -c $(ASFLAGS) $< -o $@
+
+$(EXE) : $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIB)  -o $@
+
 
 .PHONY: clean
-
-$(EXE) : $(OBJS) 
-	$(CC) -o $@ $(CFLAGS) $(OBJS) $(LIBS)
-
-doCol.o : doCol.S
-	$(CC) -c $(CFLAGS) -gstabs+ doCol.S
-
-clean :
-	rm -f $(LOBJS)
-	rm -f $(OBJS)
-	rm -f $(EXE)
-
+clean:
+	rm -f $(OBJ) $(EXE)
