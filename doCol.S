@@ -23,7 +23,7 @@
 
 asm_doCol:	
 	push {fp, lr}			// TODO save preserved registers as needed
-	add fp, sp, FP_OFFSET		// DO NOT EDIT THIS LINE
+	add fp, sp, #FP_OFFSET		// DO NOT EDIT THIS LINE
 
 	// TODO Implement doCol here
 
