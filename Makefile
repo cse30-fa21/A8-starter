@@ -19,13 +19,13 @@ CFLAGS = -I. -D_POSIX_C_SOURCE $(DEBUG) $(WARN) $(CTDO)
 # select the assembler
 AS      = gcc
 ASLIST  = -Wa,-adhln
-ASFLAGS = -I.
+ASFLAGS = -I. $(DEBUG)
 
 %.o : %.s
 	$(AS) -c $(ASFLAGS) $< -o $@
 
 $(EXE) : $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIB)  -o $@
+	$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $@
 
 
 .PHONY: clean
